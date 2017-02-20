@@ -57,9 +57,26 @@ class Currency_converter
     }
   end
 
-  def convert(currency, currency_code)
-    rate = @exchange_rates[currency_code]/@exchange_rates[currency.currency_code]
-    return Currency.new(currency_code, currency.ammount * rate)
+  def convert(currency, currency_code = nil)
+
+    if !@exchange_rates[currency_code] && currency_code != nil
+      raise Exception.new("UnknownCurrencyCodeError")
+    end
+
+    if currency_code
+      rate = @exchange_rates[currency_code]/@exchange_rates[currency.currency_code]
+      return Currency.new(currency_code, currency.ammount * rate)
+    end
+
+    puts "You've given me #{currency.ammount}#{currency.currency_code}. What would you like to change that into?"
+    input = gets.chomp
+
+    if !@exchange_rates[input]
+      raise Exception.new("UnknownCurrencyCodeError")
+    end
+
+    rate = @exchange_rates[input]/@exchange_rates[currency.currency_code]
+    return Currency.new(input, currency.ammount * rate)
   end
 end
 
@@ -67,4 +84,4 @@ end
 # test_currency = Currency.new("USD", 10)
 other_currency = Currency.new("USD", 20)
 converter = Currency_converter.new
-puts (converter.convert(other_currency, "USD")).ammount
+puts (converter.convert(other_currency)).ammount
