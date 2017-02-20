@@ -46,8 +46,25 @@ class Currency
 
 end
 
-test_currency = Currency.new("USD", 10)
-other_currency = Currency.new("USD", 20)
+class Currency_converter
+  def initialize
+    @exchange_rates = {
+      "USD" => 1,
+      "EUR" => 0.941080,
+      "ARS" => 15.7100,
+      "MNT" => 2481.51,
+      "XPT" => 0.000995107
+    }
+  end
 
-puts (test_currency * 10).ammount
-puts (other_currency * 12.3).ammount
+  def convert(currency, currency_code)
+    return Currency.new(currency_code, currency.ammount * @exchange_rates[currency_code])
+  end
+end
+
+
+test_currency = Currency.new("USD", 10)
+# other_currency = Currency.new("EUR", 20)
+converter = Currency_converter.new
+puts (converter.convert(test_currency, "EUR")).currency_code
+puts (converter.convert(test_currency, "EUR")).ammount
