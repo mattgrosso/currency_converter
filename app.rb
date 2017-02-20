@@ -58,13 +58,13 @@ class Currency_converter
   end
 
   def convert(currency, currency_code)
-    return Currency.new(currency_code, currency.ammount * @exchange_rates[currency_code])
+    rate = @exchange_rates[currency_code]/@exchange_rates[currency.currency_code]
+    return Currency.new(currency_code, currency.ammount * rate)
   end
 end
 
 
-test_currency = Currency.new("USD", 10)
-# other_currency = Currency.new("EUR", 20)
+# test_currency = Currency.new("USD", 10)
+other_currency = Currency.new("USD", 20)
 converter = Currency_converter.new
-puts (converter.convert(test_currency, "EUR")).currency_code
-puts (converter.convert(test_currency, "EUR")).ammount
+puts (converter.convert(other_currency, "USD")).ammount
